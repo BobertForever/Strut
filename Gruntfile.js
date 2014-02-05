@@ -143,6 +143,11 @@ module.exports = function (grunt) {
                 }
             }
         },
+        nodemon: {
+            dev: {
+                script: 'app.js'
+            }
+        },
         // not used since Uglify task does concat,
         // but still available if needed
         /*concat: {
@@ -298,6 +303,7 @@ module.exports = function (grunt) {
             'handlebars',
             'livereload-start',
             'connect:livereload',
+            'nodemon', 
             'watch'
         ]);
     });
