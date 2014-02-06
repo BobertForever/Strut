@@ -38,6 +38,7 @@ require.config({
     	'strut/importer/json': '../bundles/app/strut.importer.json',
     	'strut/presentation_generator/impress': '../bundles/app/strut.presentation_generator.impress',
     	'strut/presentation_generator/impress-mobile': '../bundles/app/strut.presentation_generator.impress-mobile',
+    	'strut/glass': '../bundles/app/strut.glass',
     	'strut/logo_button': '../bundles/app/strut.logo_button',
     	'strut/presentation_generator': '../bundles/app/strut.presentation_generator',
     	'strut/slide_components': '../bundles/app/strut.slide_components',
