@@ -1,11 +1,9 @@
-define(['libs/backbone', 'css!styles/storage/storageModal.css'],
+define(['libs/backbone'],
 function(Backbone) {
 	return Backbone.View.extend({
-		className: "storageModal modal hide",
+		className: "modal hide",
 		events: {
-			'click a[data-provider]': '_providerSelected',
-			'click .ok': '_okClicked',
-			'destroyed': 'dispose'
+			'click .ok': '_okClicked'
 		},
 
 		initialize: function() {
@@ -22,12 +20,8 @@ function(Backbone) {
 		render: function() {
 			// Don't load the data for a provider until its tab is selected...
 			this.$el.html(this.template({
-				title: this.__title(),
-				tabs: ["Connect"]
+				title: this.__title()
 			}));
-
-			this._providerChanged();
-			this.$el.find('.tabContent').append(this);
 		},
 
 		show: function(actionHandler, title) {
@@ -36,31 +30,15 @@ function(Backbone) {
 			this.$el.modal('show');
 		},
 
-		_providerChanged: function() {
-			if (this.$lastProviderTab) {
-				this.$lastProviderTab.removeClass('active');
-			}
-
-			this.$lastProviderTab = 
-				this.$el.find('[data-provider="Glass"]').parent();
-
-			this.$lastProviderTab.addClass('active');
-		},
-
 		__title: function() { return 'none'; },
 
 		_okClicked: function() {
 			if (this.actionHandler) {
 				var self = this;
-				this.actionHandler({ release: "True" });
+				var gid = self.$el.find(".glassid").val();
+				this.actionHandler({ session_id : gid });
 				self.$el.modal('hide');
 			}
-		},
-
-		_providerSelected: function(e) {
-			// change the storage interface's selected
-			// storage provider
-			this.storageInterface.selectProvider(e.target.dataset.provider);
 		},
 
 		constructor: function AbstractStorageModal() {

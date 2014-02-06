@@ -2,10 +2,9 @@
 	<button class="close" data-dismiss="modal">×</button>
 	<h3 class="title">{{title}}</h3>
 </div>
-<div class="modal-body" style="overflow: hidden">
-	<div class="tabContent">
-		<input type="text" class="fileName"></input>
-	</div>
+<div class="modal-body">
+	<p>Enter in Glass ID:</p>
+	<input type="text" class="glassid"></input>
 </div>
 <div class="modal-footer">
 	<a href="#" class="btn btn-primary ok btn-inverse">Ok</a>
