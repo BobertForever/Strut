@@ -45,9 +45,7 @@ function(Backbone) {
 		},
 
 		_disconnect: function() {
-			this.socket.emit('stop', { disconnect: true });
-			this.state = false;
-			this.render();
+			this.socket.emit('leave', null);
 			this.$el.modal('hide');
 		},
 

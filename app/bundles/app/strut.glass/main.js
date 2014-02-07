@@ -23,7 +23,7 @@ function(ConnectModal,
 				$modals.append(connectModal.$el);
 			}
 
-			menuItems.push(new MenuItem({ title: "Connect Glass", modal: connectModal, hotkey: '<i class="icon-remove icon-white"></i>' }));
+			menuItems.push(new MenuItem({ title: "Connect Glass", modal: connectModal }));
 
 			menuItems.push({
 				$el: $('<li class="divider"></li>'),
@@ -37,8 +37,10 @@ function(ConnectModal,
 	var createSocket = function() {
 		var socket = io.connect('http://localhost:8080');
 		socket.on('connect', function(data) {
-			if(data.status != null && data.status.toLowerCase() == "ok")
+			if(data.status != null && data.status == "connected")
 				connectModal.updateConnectionState(true);
+			else if(data.status != null && data.status == "disconnected")
+				connectModal.updateConnectionState(false);
 		});
 		return socket;
 	}
