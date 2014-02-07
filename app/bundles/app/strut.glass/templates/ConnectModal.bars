@@ -3,9 +3,18 @@
 	<h3 class="title">{{title}}</h3>
 </div>
 <div class="modal-body">
-	<p>Enter in Glass ID:</p>
-	<input type="text" class="glassid"></input>
+	<h4 style="text-align:center;">Current connection status</h3>
+	{{#if state}}
+		<h1 style="text-align:center; color:green;"><i class="fa fa-check-circle"></i> All Good!</h1>
+	{{else}}
+		<h1 style="text-align:center; color:red;"><i class="fa fa-times-circle"></i> Not active.</h1>
+		<p>Enter in Glass ID:</p>
+		<input type="text" class="glassid"></input>
+	{{/if}}
 </div>
 <div class="modal-footer">
+	{{#if state}}
+		<a href="#" class="btn disconnect btn-danger">Disconnect</a>
+	{{/if}}
 	<a href="#" class="btn btn-primary ok btn-inverse">Ok</a>
 </div>

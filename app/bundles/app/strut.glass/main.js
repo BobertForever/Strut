@@ -1,10 +1,10 @@
 define(['./view/ConnectModal',
-		'./model/ActionHandlers',
 		'tantaman/web/widgets/MenuItem',
+		'http://localhost:8080/socket.io/socket.io.js',
 		'lang'],
 function(ConnectModal,
-		ActionHandlers,
 		MenuItem,
+		Socket,
 		lang) {
 	'use strict';
 
@@ -23,7 +23,7 @@ function(ConnectModal,
 				$modals.append(connectModal.$el);
 			}
 
-			menuItems.push(new MenuItem({ title: "Connect Glass", modal: connectModal, handler: ActionHandlers.connect }));
+			menuItems.push(new MenuItem({ title: "Connect Glass", modal: connectModal, hotkey: '<i class="icon-remove icon-white"></i>' }));
 
 			menuItems.push({
 				$el: $('<li class="divider"></li>'),
@@ -34,11 +34,25 @@ function(ConnectModal,
 		}
 	};
 
+	var createSocket = function() {
+		var socket = io.connect('http://localhost:8080');
+		socket.on('connect', function(data) {
+			if(data.status.toLowerCase() == "ok")
+				connectModal.updateConnectionState(true);
+		});
+		return socket;
+	}
+
 	return {
 		initialize: function(registry) {
 			registry.register({
 				interfaces: 'strut.LogoMenuItemProvider'
 			}, service);
+
+			var socket = createSocket();
+			registry.register({
+				interfaces: 'strut.glass.socket'
+			}, socket);
 		}
 	}
 });

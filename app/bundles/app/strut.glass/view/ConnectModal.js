@@ -3,42 +3,52 @@ function(Backbone) {
 	return Backbone.View.extend({
 		className: "modal hide",
 		events: {
-			'click .ok': '_okClicked'
+			'click .ok': '_okClicked',
+			'click .disconnect': '_disconnect'
 		},
 
 		initialize: function() {
 			this.editorModel = this.options.editorModel;
 			delete this.options.editorModel;
 
+			this._registry = this.editorModel.registry;
+			this.socket = this._registry.getBest('strut.glass.socket');
 			this.template = JST['strut.glass/ConnectModal'];
-		},
-
-		title: function(title) {
-			this.$el.find('.title').html(title);
+			this._title = null;
+			this.state = false;
 		},
 
 		render: function() {
-			// Don't load the data for a provider until its tab is selected...
 			this.$el.html(this.template({
-				title: this.__title()
+				title: this._title,
+				state: this.state
 			}));
+		},
+
+		updateConnectionState: function(state) {
+			this.state = state;
+			this.render();
 		},
 
 		show: function(actionHandler, title) {
 			this.actionHandler = actionHandler;
-			this.title(title);
+			this._title = title;
+			this.render();
 			this.$el.modal('show');
 		},
 
-		__title: function() { return 'none'; },
-
 		_okClicked: function() {
-			if (this.actionHandler) {
-				var self = this;
-				var gid = self.$el.find(".glassid").val();
-				this.actionHandler({ session_id : gid });
-				self.$el.modal('hide');
-			}
+			var gid = this.$el.find(".glassid").val();
+			this.$el.find(".glassid").val("");
+			this.socket.emit('connect', { id: gid });
+			this.$el.modal('hide');
+		},
+
+		_disconnect: function() {
+			this.socket.emit('stop', { disconnect: true });
+			this.state = false;
+			this.render();
+			this.$el.modal('hide');
 		},
 
 		constructor: function AbstractStorageModal() {

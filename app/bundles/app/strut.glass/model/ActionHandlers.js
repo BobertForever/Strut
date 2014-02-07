@@ -1,12 +1,19 @@
-define(['http://localhost:8080/socket.io/socket.io.js'],
-function(Socket) {
-	return {
+define(['libs/backbone'],
+function(Backbone) {
+	return Backbone.Model.extend({
+		initialize: function(editorModel) {
+			this.set('socket', this.registry.get('strut.glass.socket'));
+		},
+
 		connect: function(options) {
-			var socket = io.connect('http://localhost:8080');
-			socket.on('slide', function (data) {
-				console.log(data);
-				socket.emit('data', { my: options.release });
-			});
+			socket = editorModel.registry.get('strut.glass.socket');
+			alert(socket);
+			socket.emit('connect', { id: this.$el.find(".glassid").val() });
+		},
+
+		constructor: function ActionHandlers(opts) {
+			this._editorModel = opts.editorModel;
+			Backbone.Model.prototype.constructor.call(this);
 		}
-	};
+	});
 });
