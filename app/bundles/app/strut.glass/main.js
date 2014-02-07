@@ -37,7 +37,7 @@ function(ConnectModal,
 	var createSocket = function() {
 		var socket = io.connect('http://localhost:8080');
 		socket.on('connect', function(data) {
-			if(data.status.toLowerCase() == "ok")
+			if(data.status != null && data.status.toLowerCase() == "ok")
 				connectModal.updateConnectionState(true);
 		});
 		return socket;

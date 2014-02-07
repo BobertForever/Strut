@@ -40,7 +40,7 @@ function(Backbone) {
 		_okClicked: function() {
 			var gid = this.$el.find(".glassid").val();
 			this.$el.find(".glassid").val("");
-			this.socket.emit('connect', { id: gid });
+			this.socket.emit('webconnect', { id: gid });
 			this.$el.modal('hide');
 		},
 
