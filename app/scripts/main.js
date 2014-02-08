@@ -49,6 +49,7 @@ require.config({
     	'strut/well_context_buttons': '../bundles/app/strut.well_context_buttons',
     	'strut/config': '../bundles/app/strut.config',
     	'strut/transition_editor': '../bundles/app/strut.transition_editor',
+    	'strut/presentation_notes': '../bundles/app/strut.presentation_notes',
 
     	'tantaman/web': '../bundles/common/tantaman.web',
 		'tantaman/web/local_storage': '../bundles/common/tantaman.web.local_storage',

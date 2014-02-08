@@ -1,13 +1,15 @@
 define(['libs/backbone',
 		'strut/header/view/HeaderView',
+		'strut/presentation_notes/view/Notes',
 		'./CustomBgStylesheet',
 		'tantaman/web/widgets/InputRequestModal',
 		'lang'],
-function(Backbone, Header, CustomBgStylesheet, InputRequestModal, lang) {
+function(Backbone, Header, Notes, CustomBgStylesheet, InputRequestModal, lang) {
 	return Backbone.View.extend({
 		className: 'container-fluid',
 		initialize: function() {
 			this._header = new Header({model: this.model.get('header')});
+			this._notes = new Notes({model: this.model.get('notes')});
 
 			this.model.on('change:activeMode', this._modeChanged, this);
 			this.model.on('newPresentationDesired', this._newPresentationDesired, this);
@@ -31,6 +33,8 @@ function(Backbone, Header, CustomBgStylesheet, InputRequestModal, lang) {
 				this.$el.append(activeMode.view.render().$el);
 			else
 				this._renderNoMode();
+			console.log("My Object: %o", this._notes.render().$el);
+			this.$el.append(this._notes.render().$el);
 
 			return this;
 		},

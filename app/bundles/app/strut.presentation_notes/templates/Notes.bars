@@ -1,0 +1,14 @@
+<div class="presentation-notes-toggle btn btn-plast">
+	<span class="caret whiteCaret"></span>
+</div>
+<div class="presentation-notes-content" style="
+    height: 100px;
+    position: fixed;
+    bottom: 0;
+    background-color: black;
+    width: 100%;
+    z-index: 1;
+    left: 150px;
+">
+  <textarea style="margin: 0px 0px 10px; width: 100%; height: 100%;"></textarea>
+</div>
