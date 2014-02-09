@@ -7,6 +7,8 @@ var currentSessions = {};
 io.sockets.on('connection', function (socket) {
 	this.sessionID = null;
 
+	console.log("Socket [" + socket.id + "] new connection");
+
 	/*
 	 * Glass Connection
 	 * Create a new SessionID, add the socket to that ID's room, and send back the ID
@@ -40,5 +42,13 @@ io.sockets.on('connection', function (socket) {
 			console.log("Socket [" + socket.id + "] left room [" + this.sessionID + "]");
 			this.sessionID = null;
 		}
+	})
+
+	/*
+	 * Disconnect
+	 * Log that the socket has disconnected
+	 */
+	socket.on('disconnect', function() {
+		console.log("Socket [" + socket.id + "] disconnect");
 	})
 });
