@@ -5,7 +5,6 @@ var log_level = 2;
 var currentSessions = {};
 
 io.sockets.on('connection', function (socket) {
-	this.sessionID = null;
 
 	console.log("Socket [" + socket.id + "] new connection");
 
@@ -14,10 +13,10 @@ io.sockets.on('connection', function (socket) {
 	 * Create a new SessionID, add the socket to that ID's room, and send back the ID
 	 */
 	socket.on('glassconnect', function(data) {
-		this.sessionID = Math.floor(Math.random()*900000) + 100000;
-		socket.join(this.sessionID);
-		socket.emit('connect', { status: 'connected', sessionID: this.sessionID });
-		console.log("Socket [" + socket.id + "] joined room [" + this.sessionID + "]");
+		socket.room = Math.floor(Math.random()*900000) + 100000;
+		socket.join(socket.room);
+		socket.emit('connect', { status: 'connected', sessionID: socket.room });
+		console.log("Socket [" + socket.id + "] joined room [" + socket.room+ "]");
 	});
 
 	/*
@@ -25,10 +24,10 @@ io.sockets.on('connection', function (socket) {
 	 * Add the socket to the provided ID's room, and return an OK.
 	 */
 	socket.on('webconnect', function(data) {
-		this.sessionID = data.id;
-		socket.join(this.sessionID);
+		socket.room = data.id;
+		socket.join(socket.room);
 		socket.emit('connect', { status: 'connected' });
-		console.log("Socket [" + socket.id + "] joined room [" + this.sessionID + "]");
+		console.log("Socket [" + socket.id + "] joined room [" + socket.room + "]");
 	});
 
 	/*
@@ -36,13 +35,25 @@ io.sockets.on('connection', function (socket) {
 	 * Handles when a connection wants to leave its cuurent room
 	 */
 	socket.on('leave', function(data) {
-		if(this.sessionID != null) {
-			socket.leave(this.sessionID);
+		if(socket.room != null) {
+			socket.leave(socket.room);
 			socket.emit('connect', { status: 'disconnected' });
-			console.log("Socket [" + socket.id + "] left room [" + this.sessionID + "]");
-			this.sessionID = null;
+			console.log("Socket [" + socket.id + "] left room [" + socket.room + "]");
+			socket.room = null;
 		}
-	})
+	});
+
+	socket.on('startPresentation', function(data) {
+		socket.broadcast.to(socket.room).emit('startPresentation', data);
+	});
+
+	socket.on('slideNotes', function(data) {
+		socket.broadcast.to(socket.room).emit('slideNotes', data);
+	});
+
+	socket.on('currentSlide', function(data) {
+		socket.broadcast.to(socket.room).emit('currentSlide', data);
+	});
 
 	/*
 	 * Disconnect
