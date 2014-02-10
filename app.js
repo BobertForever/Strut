@@ -43,16 +43,18 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 
+	/*
+	 * Stream Handlers
+	 * intercept messages on these channdels and broadcast them to their respective rooms
+	 */
 	socket.on('startPresentation', function(data) {
 		console.log("Socket [" + socket.id + "] sent startPresentation to room");
 		socket.broadcast.to(socket.room).emit('startPresentation', data);
 	});
-
 	socket.on('slideNotes', function(data) {
 		console.log("Socket [" + socket.id + "] sent slideNotes to room");
 		socket.broadcast.to(socket.room).emit('slideNotes', data);
 	});
-
 	socket.on('currentSlide', function(data) {
 		console.log("Socket [" + socket.id + "] sent currentSlide to room");
 		socket.broadcast.to(socket.room).emit('currentSlide', data);
