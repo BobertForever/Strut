@@ -41,6 +41,7 @@ function(Backbone) {
 			var gid = this.$el.find(".glassid").val();
 			this.$el.find(".glassid").val("");
 			this.socket.emit('webconnect', { id: gid });
+			this.socket.room = gid;
 			this.$el.modal('hide');
 		},
 

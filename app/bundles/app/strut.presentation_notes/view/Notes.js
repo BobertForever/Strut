@@ -36,20 +36,24 @@ function(Backbone) {
 		},
 
 		update: function() {
+			this.slideindex = this._editorModel.activeSlideIndex();
+			note = this.$el.find("textarea").val();
 			if(this.socket.room != null) {
-				this.slideindex = this._editorModel.activeSlideIndex();
-				note = this.$el.find("textarea").val();
 				this.socket.emit('slideNotes', { slide: this.slideindex, notes: note});
 			}
+			this.model._addNote(this.slideindex, note);
 		},
 
 		change: function() {
+			note = this.$el.find("textarea").val();
 			if(this.socket.room != null) {
-				note = this.$el.find("textarea").val();
 				this.socket.emit('slideNotes', { slide: this.slideindex, notes: note});
-				this.slideindex = this._editorModel.activeSlideIndex();
-				this.$el.find("textarea").val("");
 			}
+			this.model._addNote(this.slideindex, note);
+			this.slideindex = this._editorModel.activeSlideIndex();
+			tmp = this.model._getNote(this.slideindex)
+			console.log("Slide: " + this.slideindex + ", Note: " + tmp);
+			this.$el.find("textarea").val(tmp);
 		},
 
 		constructor: function AbstractNotes() {

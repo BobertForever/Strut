@@ -1,9 +1,40 @@
 define(['libs/backbone'],
 function(Backbone) {
-
 	return Backbone.Model.extend({
 		initialize: function() {
-			//noop
+			this.set("presentation_notes", []);
+		},
+
+		_addNote: function(index, content) {
+			found = false;
+			this.get('presentation_notes').forEach(function(note) {
+				if(note['index'] == index) {
+					found = true
+					note['content'] = content;
+					return;
+				}
+			});
+			if(!found) {
+				note = {}
+				note['index'] = index;
+				note['content'] = content;
+				this.get('presentation_notes').push(note);
+			}
+		},
+
+		_getNote: function(index) {
+			content = null;
+			this.get('presentation_notes').forEach(function(note) {
+				if(note['index'] == index) {
+					console.log("Found: " + JSON.stringify(note));
+					content = note['content'];
+				}
+			});
+			return content;
+		},
+
+		import: function(rawObj) {
+			this.set('presentation_notes', rawObj.presentation_notes);
 		},
 
 		constructor: function HeaderModel(registry, editorModel) {

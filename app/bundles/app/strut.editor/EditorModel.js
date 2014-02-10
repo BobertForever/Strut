@@ -130,6 +130,7 @@ define(['libs/backbone',
 				// TODO: purge URL cache
 				console.log('New file name: ' + rawObj.fileName);
 				this._deck.import(rawObj);
+				this.get('notes').import(rawObj['notes']);
 			},
 
 			hasStorage: function() {
@@ -148,6 +149,7 @@ define(['libs/backbone',
 				// A higher genid means its a newer version of the presentation.
 				this._deck.set('__genid', genid);
 				var obj = this._deck.toJSON(false, true);
+				obj['notes'] = this.get('notes').toJSON(false, true);
 				return obj;
 			},
 
