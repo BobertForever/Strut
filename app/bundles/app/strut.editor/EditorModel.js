@@ -1,12 +1,13 @@
 define(['libs/backbone',
 	'strut/header/model/HeaderModel',
+	'strut/presentation_notes/model/NotesModel',
 	'strut/deck/Deck',
 	'strut/slide_components/ComponentFactory',
 	'common/Adapter',
 	'tantaman/web/interactions/Clipboard',
 	'./GlobalEvents',
 	'tantaman/web/undo_support/CmdListFactory'],
-	function(Backbone, Header, Deck, ComponentFactory, Adapter, Clipboard, GlobalEvents, CmdListFactory) {
+	function(Backbone, Header, Notes, Deck, ComponentFactory, Adapter, Clipboard, GlobalEvents, CmdListFactory) {
 		'use strict';
 
 		function adaptStorageInterfaceForSavers(storageInterface) {
@@ -30,6 +31,7 @@ define(['libs/backbone',
 				this.addSlide();
 
 				this.set('header', new Header(this.registry, this));
+				this.set('notes', new Notes(this.registry, this));
 
 				this.set('modeId', 'slide-editor');
 

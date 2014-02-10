@@ -11,6 +11,8 @@ function(Backbone, PreviewLauncher) {
 			this._previewLauncher = new PreviewLauncher(this._editorModel);
 			this._generators = this._editorModel.registry
 				.getBest('strut.presentation_generator.GeneratorCollection');
+			this._socket = this._editorModel.registry
+				.getBest('strut.glass.socket');
 
 			delete this.options.editorModel;
 			// TODO: we should keep session meta per bundle...
@@ -21,6 +23,9 @@ function(Backbone, PreviewLauncher) {
 		},
 
 		_launch: function() {
+			this._socket.emit('startPresentation', true);
+			curslide = this._editorModel.activeSlideIndex();
+			this._socket.emit('slide', { slide: curslide });
 			this._previewLauncher.launch(this._generators[this._index]);
 		},
 

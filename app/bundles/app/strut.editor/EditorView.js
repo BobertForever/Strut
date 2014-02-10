@@ -33,7 +33,6 @@ function(Backbone, Header, Notes, CustomBgStylesheet, InputRequestModal, lang) {
 				this.$el.append(activeMode.view.render().$el);
 			else
 				this._renderNoMode();
-			console.log("My Object: %o", this._notes.render().$el);
 			this.$el.append(this._notes.render().$el);
 
 			return this;

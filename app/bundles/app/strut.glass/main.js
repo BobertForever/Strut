@@ -17,7 +17,7 @@ function(ConnectModal,
 
 			if (connectModal == null) {
 				connectModal = new ConnectModal({
-					editorModel: editorModel,
+					editorModel: editorModel
 				});
 				connectModal.render();
 				$modals.append(connectModal.$el);
@@ -35,7 +35,7 @@ function(ConnectModal,
 	};
 
 	var createSocket = function() {
-		var socket = io.connect('http://localhost:8080');
+		var socket = io.connect('http://dev.projectrobert.com:8080');
 		socket.on('connect', function(data) {
 			if(data.status != null && data.status == "connected")
 				connectModal.updateConnectionState(true);

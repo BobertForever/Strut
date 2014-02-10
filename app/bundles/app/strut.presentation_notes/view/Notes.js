@@ -8,13 +8,11 @@ function(Backbone) {
 		},
 
 		initialize: function() {
-			this.editorModel = this.options.editorModel;
-			delete this.options.editorModel;
-
-			this._registry = this.editorModel.registry;
-			this.socket = this._registry.getBest('strut.glass.socket');
-
+			this._editorModel = this.model._editorModel;
+			this.socket = this.model.registry.getBest('strut.glass.socket');
 			this.template = JST['strut.presentation_notes/Notes'];
+			this.slideindex = this._editorModel.activeSlideIndex();
+			this._editorModel._deck.on('change:activeSlide', this.change, this);
 		},
 
 		render: function() {
@@ -38,8 +36,16 @@ function(Backbone) {
 		},
 
 		update: function() {
+			this.slideindex = this._editorModel.activeSlideIndex();
 			note = this.$el.find("textarea").val();
-			socket.emit('slideNotes', { slide: 1, notes: note});
+			this.socket.emit('slideNotes', { slide: this.slideindex, notes: note});
+		},
+
+		change: function() {
+			note = this.$el.find("textarea").val();
+			this.socket.emit('slideNotes', { slide: this.slideindex, notes: note});
+			this.slideindex = this._editorModel.activeSlideIndex();
+			this.$el.find("textarea").val("");
 		},
 
 		constructor: function AbstractNotes() {
