@@ -13,6 +13,10 @@ define(function() {
 
 			this._editorModel.trigger('launch:preview', null);
 
+			var socket = this._editorModel.registry.getBest('strut.glass.socket');
+
+			var socketref = socket.room != null ? '?socket=' + socket.room : '';
+
 			var previewStr = generator.generate(this._editorModel.deck());
 
 			localStorage.setItem('preview-string', previewStr);
@@ -21,7 +25,7 @@ define(function() {
 			}));
 
 			window.previewWind = window.open(
-				'preview_export/' + (generator.file || generator.id) + '.html' + generator.getSlideHash(this._editorModel),
+				'preview_export/' + (generator.file || generator.id) + '.html' + generator.getSlideHash(this._editorModel) + socketref,
 				window.location.href);
 			var sourceWind = window;
 		}
