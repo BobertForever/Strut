@@ -3,11 +3,18 @@ define(['./view/Notes',
 function(Notes,
 		lang) {
 	'use strict';
+
+	var notes = null;
 	
 	var service = {
 		Presentation_notes: function (editorModel) {
-			this._notes = new Notes();
-			return this._notes.$el;
+			if(notes == null) {
+				notes = new Notes({
+					editorModel: editorModel
+				});
+				notes.render();
+			}
+			return notes;
 		}
 	};
 

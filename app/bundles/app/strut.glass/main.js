@@ -1,6 +1,6 @@
 define(['./view/ConnectModal',
 		'tantaman/web/widgets/MenuItem',
-		'http://localhost:8080/socket.io/socket.io.js',
+		'http://dev.projectrobert.com:8080/socket.io/socket.io.js',
 		'lang'],
 function(ConnectModal,
 		MenuItem,

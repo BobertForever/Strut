@@ -62,3 +62,31 @@
 	z-index: 1;
 	box-sizing: border-box;
 }
+
+.presentation-notes-toggle {
+	border-radius: 4px 4px 0 0;
+	position: absolute;
+	width: 77px;
+	left: 150px;
+	bottom: 150px;
+	z-index: 1;
+	box-sizing: border-box;
+}
+
+.hiding .presentation-notes-toggle {
+	bottom: 0px;
+}
+
+.presentation-notes-content {
+	height: 150px;
+	position: fixed;
+	bottom: 0;
+	background-color: black;
+	width: 100%;
+	z-index: 1;
+	left: 150px;
+}
+
+ .hiding .presentation-notes-content {
+	display: none;
+}

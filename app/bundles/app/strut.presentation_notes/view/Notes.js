@@ -3,11 +3,17 @@ function(Backbone) {
 	return Backbone.View.extend({
 		className: 'presentation-notes',
 		events: {
-			'click .presentation-notes-toggle': '_toggle',
-			'change .presentation-notes-content': '_update'
+			'click .presentation-notes-toggle': 'toggle',
+			'change .presentation-notes-content': 'update'
 		},
 
 		initialize: function() {
+			this.editorModel = this.options.editorModel;
+			delete this.options.editorModel;
+
+			this._registry = this.editorModel.registry;
+			this.socket = this._registry.getBest('strut.glass.socket');
+
 			this.template = JST['strut.presentation_notes/Notes'];
 		},
 
@@ -29,6 +35,11 @@ function(Backbone) {
 		hide: function() {
 			this.$el.removeClass('showing');
 			this.$el.addClass('hiding');
+		},
+
+		update: function() {
+			note = this.$el.find("textarea").val();
+			socket.emit('slideNotes', { slide: 1, notes: note});
 		},
 
 		constructor: function AbstractNotes() {
