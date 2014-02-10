@@ -7,8 +7,8 @@ function(Backbone) {
 
 		connect: function(options) {
 			socket = editorModel.registry.get('strut.glass.socket');
-			alert(socket);
 			socket.emit('connect', { id: this.$el.find(".glassid").val() });
+			socket.room = this.$el.find(".glassid").val();
 		},
 
 		constructor: function ActionHandlers(opts) {
