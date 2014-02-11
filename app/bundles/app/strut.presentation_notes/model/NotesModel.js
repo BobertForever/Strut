@@ -6,12 +6,12 @@ function(Backbone) {
 		},
 
 		_addNote: function(index, content) {
+			if(index < 0) return;
 			found = false;
 			this.get('presentation_notes').forEach(function(note) {
 				if(note['index'] == index) {
 					found = true
 					note['content'] = content;
-					return;
 				}
 			});
 			if(!found) {
@@ -23,10 +23,10 @@ function(Backbone) {
 		},
 
 		_getNote: function(index) {
+			if(index < 0) return;
 			content = null;
 			this.get('presentation_notes').forEach(function(note) {
 				if(note['index'] == index) {
-					console.log("Found: " + JSON.stringify(note));
 					content = note['content'];
 				}
 			});

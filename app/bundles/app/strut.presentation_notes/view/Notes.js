@@ -13,6 +13,8 @@ function(Backbone) {
 			this.template = JST['strut.presentation_notes/Notes'];
 			this.slideindex = this._editorModel.activeSlideIndex();
 			this._editorModel._deck.on('change:activeSlide', this.change, this);
+			this._isready = false;
+			$( document ).ready(this.canupdate);
 		},
 
 		render: function() {
@@ -21,10 +23,15 @@ function(Backbone) {
 			return this;
 		},
 
+		canupdate: function() {
+			this._isready = true;
+		},
+
 		toggle: function() {
 			if (this.$el.is('.hiding')) {
 				this.$el.removeClass('hiding');
 				this.$el.addClass('showing');
+				this.$el.find("textarea").val(this.model._getNote(this.slideindex));
 			} else {
 				this.hide();
 			}
@@ -49,11 +56,9 @@ function(Backbone) {
 			if(this.socket.room != null) {
 				this.socket.emit('slideNotes', { slide: this.slideindex, notes: note});
 			}
-			this.model._addNote(this.slideindex, note);
+			if(this._isready) this.model._addNote(this.slideindex, note);
 			this.slideindex = this._editorModel.activeSlideIndex();
-			tmp = this.model._getNote(this.slideindex)
-			console.log("Slide: " + this.slideindex + ", Note: " + tmp);
-			this.$el.find("textarea").val(tmp);
+			this.$el.find("textarea").val(this.model._getNote(this.slideindex));
 		},
 
 		constructor: function AbstractNotes() {
