@@ -8,6 +8,12 @@
 		<h1 style="text-align:center; color:green;"><i class="fa fa-check-circle"></i> All Good!</h1>
 	{{else}}
 		<h1 style="text-align:center; color:red;"><i class="fa fa-times-circle"></i> Not active.</h1>
+		{{#if error}}
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Warning!</strong> Provided Socket ID was invalid.
+			</div>
+		{{/if}}		
 		<p>Enter in Glass ID:</p>
 		<input type="text" class="glassid"></input>
 	{{/if}}

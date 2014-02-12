@@ -38,9 +38,11 @@ function(ConnectModal,
 		var socket = io.connect('http://dev.projectrobert.com:8080');
 		socket.on('connect', function(data) {
 			if(data.status != null && data.status == "connected")
-				connectModal.updateConnectionState(true);
+				connectModal.updateConnectionState(true, false);
+			if(data.status != null && data.status == "fail")
+				connectModal.updateConnectionState(false, true);
 			else if(data.status != null && data.status == "disconnected")
-				connectModal.updateConnectionState(false);
+				connectModal.updateConnectionState(false, false);
 		});
 		return socket;
 	}

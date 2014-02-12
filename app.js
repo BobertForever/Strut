@@ -21,13 +21,19 @@ io.sockets.on('connection', function (socket) {
 
 	/*
 	 * Web Connection
-	 * Add the socket to the provided ID's room, and return an OK.
+	 * Check to see if the provided room ID is valid. If it is, add the client to that
+	 * room and return OK. If not, end the client an error
 	 */
 	socket.on('webconnect', function(data) {
 		socket.room = data.id;
-		socket.join(socket.room);
-		socket.emit('connect', { status: 'connected' });
-		console.log("Socket [" + socket.id + "] joined room [" + socket.room + "]");
+		if(io.sockets.clients(socket.room).length > 0) {
+			socket.join(socket.room);
+			socket.emit('connect', { status: 'connected' });
+			console.log("Socket [" + socket.id + "] joined room [" + socket.room + "]");
+		} else {
+			socket.emit('connect', { status: 'fail' });
+			console.log("Socket [" + socket.id + "] tried to joined invalid room [" + socket.room + "]");
+		}
 	});
 
 	/*
